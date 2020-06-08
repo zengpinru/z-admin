@@ -13,9 +13,11 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (!store.state.menu.hasGetInfo) { // 没有获取用户的权限
     if (to.path !== '/login') {
-      store.commit('menu/setMenuNativeData', data)
-      store.commit('menu/setMenuData')
-      store.commit('menu/setHasGetInfo', true)
+      store.dispatch('menu/initMenuData', data).then(() => {
+        console.log('初始化菜单成功')
+      }).catch(err => {
+        console.log(err)
+      })
     } else {
       next()
     }

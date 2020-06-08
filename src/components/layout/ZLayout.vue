@@ -17,7 +17,7 @@
       <Layout>
         <Header><z-header @toggle-collapse="toggleCollapse" :isCollapsed="isCollapsed"/></Header>
         <z-tag-nav></z-tag-nav>
-        <Content class="content"><slot></slot></Content>
+        <Content class="content" :style="{ width: contentWidth }"><slot></slot></Content>
       </Layout>
     </Layout>
   </div>
@@ -40,6 +40,9 @@ export default {
   computed: {
     siderClasses () {
       return [this.isCollapsed ? 'sider-collapsed' : 'sider-not-collapsed']
+    },
+    contentWidth () {
+      return this.isCollapsed ? 'calc(100vw - 65px)' : 'calc(100vw - 200px)'
     }
   },
   methods: {

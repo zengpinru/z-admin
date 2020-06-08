@@ -1,15 +1,14 @@
 <template>
   <div id="app">
-    <z-layout v-if="$route.path !== '/login'"><router-view/></z-layout>
+    <z-layout v-if="$route.path !== '/login'"><keep-alive><router-view/></keep-alive></z-layout>
     <div v-else><router-view/></div>
   </div>
 </template>
 
 <script>
-import ZLayout from './components/layout'
 export default {
   components: {
-    ZLayout
+    ZLayout: () => import('./components/layout')
   }
 }
 </script>

@@ -52,6 +52,7 @@ export default {
       for (let menu of state.menuNativeData) {
         objById[menu.id] = menu
         objByPath[menu.path] = menu
+        delete menu.childrens
       }
       this.commit('menu/setMenuHashtableById', objById)
       this.commit('menu/setMenuHashtableByPath', objByPath)
@@ -63,6 +64,10 @@ export default {
         }
       })
       state.menuData = state.menuNativeData.filter(item => item.parentId === 0)
+      // 排序一级菜单
+      state.menuData.sort((a, b) => {
+        return b.order - a.order
+      })
     },
     /**
      * 更新tagData中的数据
@@ -129,6 +134,20 @@ export default {
         arr.unshift(state.menuHashtableByPath['/'])
       }
       state.breadcrumbData = arr
+    }
+  },
+  actions: {
+    initMenuData ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        try {
+          commit('setMenuNativeData', data)
+          commit('setMenuData')
+          commit('setHasGetInfo', true)
+          resolve()
+        } catch (err) {
+          reject(err)
+        }
+      })
     }
   }
 }
